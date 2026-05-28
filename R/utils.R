@@ -202,6 +202,7 @@ rename_sum_str <- function(data, col, var, pub_colname, fcts) {
 #' provided levels. If FALSE, those values become NA with a warning.
 #'
 #' @return The modified data.frame with selected columns turned into factors.
+#' @export
 factorise_cols <- function(df,
                            level_list,
                            cols = names(level_list),
