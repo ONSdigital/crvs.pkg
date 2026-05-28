@@ -1,0 +1,14 @@
+Package: crvs.pkg
+Title: Civil Registration and Vital Statistics Package
+Version: 0.0.0.9000
+Description: This package has been built to use civil registration data in the production of vital statistics in line with the UNECA report template.
+License: To be determined
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    dplyr,
+    tibble
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
