@@ -9,10 +9,9 @@ filter_factor_levels(data, levels_to_keep = list())
 \arguments{
 \item{data}{A data frame to be filtered.}
 
-\item{levels_to_keep}{A named list defining the allowed levels
-for each column. Names must correspond to column names in
-\code{data}. Values should be character vectors of levels to
-retain. Columns with \code{NULL} values are ignored.}
+\item{levels_to_keep}{A named list where each name is a column in \code{data},
+and each value is a vector of levels to keep for that column.
+If \code{NULL}, no filtering is applied for that column.}
 }
 \value{
 A data frame filtered to include only rows matching all specified
@@ -23,6 +22,10 @@ Filters a data frame by keeping only rows where specified
 factor or character columns contain allowed levels.
 Each column is filtered independently, and all specified
 filters are combined using logical AND.
+Each column and its allowed values are provided as a named list.
+
+Only rows where the column values match the allowed levels are kept.
+Columns not listed are left unchanged.
 }
 \details{
 This function is designed for production use where filtering
@@ -30,10 +33,10 @@ rules may vary by column and be defined dynamically.
 
 For each element in \code{levels_to_keep}:
 \itemize{
-\item The column must exist in \code{data}
-\item The column must be of type factor or character
-\item Rows are retained if the column value is contained
-in the corresponding vector of allowed levels
+\item Checks that \code{data} is a data frame
+\item Checks that each specified column exists
+\item Checks that columns are factor or character
+\item Filters rows to keep only allowed levels
 }
 
 All filters are applied sequentially, meaning rows must satisfy

@@ -2,20 +2,30 @@
 % Please edit documentation in R/utils.R
 \name{group_by_summarise_count}
 \alias{group_by_summarise_count}
-\title{Group by and summarise}
+\title{Count rows by grouping variables}
 \usage{
 group_by_summarise_count(data, grouping_cols)
 }
 \arguments{
 \item{data}{Data frame.}
 
-\item{grouping_cols}{Vector of strings of column names to group by.}
+\item{grouping_cols}{Vector of character strings of column names to group by.}
 }
 \value{
 Data frame with counts column (ungrouped).
 }
 \description{
-Groups by specified columns, summarises (counts). All
-combinations of factor variable levels will be returned, even with no
-instances.
+Groups \code{data} by one or more chosen variables/columns
+(\code{grouping_cols}), counts the number of rows in each group. All combinations
+of factor variable levels will be returned, even with no instances (i.e.
+counts of 0).
+}
+\examples{
+df <- data.frame(
+  region = c("A", "A", "B"),
+  sex = c("Male", "Female", "Male")
+)
+
+group_by_summarise_count(df, c("region", "sex"))
+
 }

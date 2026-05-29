@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{summarise_count_vars}
 \alias{summarise_count_vars}
-\title{Summarise and count given variables}
+\title{Create cross-tabulated counts or sums with totals added}
 \usage{
 summarise_count_vars(
   data,
@@ -31,5 +31,8 @@ Should be supplied unquoted. Default is NULL.}
 Dataframe.
 }
 \description{
-Summarise and count given variables
+Aggregates a dataset by specified grouping variables
+(\code{grouping_cols}), producing either counts or sums,
+and returns a cross-tabulation (all combinations of the variables) with the
+totals/sums (marginal totals) calculated.
 }

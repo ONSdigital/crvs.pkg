@@ -2,45 +2,35 @@
 % Please edit documentation in R/utils.R
 \name{group_by_summarise_sum}
 \alias{group_by_summarise_sum}
-\title{Group, Summarise Population, and Add a Label Column}
+\title{Sum values by grouping variables}
 \usage{
 group_by_summarise_sum(data, grouping_cols, sum_col)
 }
 \arguments{
-\item{data}{A data frame or tibble containing at least a \code{population}
-column and the grouping columns specified in \code{grouping_cols}.}
+\item{data}{A data frame containing at least the \code{grouping_cols} and
+\code{sum_col}.}
 
-\item{grouping_cols}{A character vector of column names to group by.
-These columns must exist in \code{data}.}
+\item{grouping_cols}{Vector of character strings of column names to group by.}
 
-\item{sum_col}{A tidy-evaluated column name to sum.
-This should be supplied unquoted (e.g. \code{population}).
-
-#return A tibble containing:
-\itemize{
-\item the grouping columns,
-\item a \code{population} column containing the summed \code{sum_col} values,
-\item the new column specified by \code{total_var} containing \code{total_str}.
-}}
-
-\item{total_var}{A tidy-evaluated column name to create in the result.
-This should be supplied unquoted (e.g. \code{sex}).}
-
-\item{total_str}{A string that will be assigned to the new \code{total_var}
-column for every row in the output.}
+\item{sum_col}{A character string of the numeric column name to sum.}
+}
+\value{
+A data frame with one row per unique combination of grouping
+variables and a column containing the summed values.
 }
 \description{
-This helper function groups a population dataset by one or more columns,
-sums the \code{population} variable within each group, and then adds a new column
-(defined using tidy-evaluation) with a constant value.
+Groups by one or more chosen variables/columns
+(\code{grouping_cols}), calculates the sum of a chosen numeric variable/column
+(\code{sum_col}) in each group. All combinations of factor variable levels will be
+returned, even with no instances (i.e. counts of 0).
 }
-\details{
-It is typically used to generate aggregate population rows such as
-"All people", "All ages", or other summary group labels.
+\examples{
+df <- data.frame(
+  region = c("A", "A", "B"),
+  sex = c("Male", "Female", "Male"),
+  value = c(10, 20, 30)
+)
 
-The function uses tidy evaluation (\code{{{ }}}) to allow the caller to
-dynamically name the output column.
+group_by_summarise_sum(df, c("region", "sex"), "value")
 
-Grouping uses \code{.drop = FALSE}, meaning factor levels that do not
-appear in the data are preserved in the output.
 }

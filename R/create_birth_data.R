@@ -1,13 +1,26 @@
-#' Create dummy birth data
+#' Simulate raw birth registration data
 #'
-#' @description Some messy data is added to demonstrate processing.
+#' Generates a synthetic (dummy) dataset of raw birth registration data,
+#' including child, birth event, and maternal characteristics. The output
+#' includes a small number of deliberately irregular records for testing
+#' validation and cleaning workflows.
 #'
-#' @param n Number of rows to generate. Default is 1000.
-#' @param seed Numerical value of seed for reproducibility. Default is 249.
+#' @param n Number of records to generate. Default is 10,000.
+#' @param seed Random seed for reproducibility. Default is 249.
 #'
-#' @return Data frame.
+#' @returns A dataframe of synthetic births data. The column names are unique
+#' identifiers, rather than descriptive names (e.g. `birth1a`).
+#'
+#' @details
+#' Values are sampled from simple distributions to approximate realistic
+#' patterns. Five additional rows are appended containing edge cases
+#' (e.g. missing or inconsistent dates) to support testing.
+#'
+#' @examples
+#' create_birth_data_raw()
+#' create_birth_data_raw(n = 1000, seed = 123)
+#'
 #' @export
-#'
 create_birth_data_raw <- function(n = 10000, seed = 249) {
 
   set.seed(seed)

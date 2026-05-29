@@ -145,8 +145,8 @@ process_pop_for_asfr <- function(pop,
   )
 
   pop |>
-    dplyr::mutate(Age = as.numeric(as.character(Age))) |>
     dplyr::filter(Age %in% fert_range & Sex == pop_sex) |>
+    dplyr::mutate(Age = as.numeric(as.character(Age))) |>
     group_age(
       age_col = "Age",
       new_col = "Mothers age group",

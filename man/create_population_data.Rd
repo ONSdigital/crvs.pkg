@@ -2,16 +2,28 @@
 % Please edit documentation in R/create_pops_data.R
 \name{create_population_data}
 \alias{create_population_data}
-\title{Create wide dummy populations data - Not currently in use}
+\title{Simulate population data by age, sex, and region (wide format)}
 \usage{
 create_population_data(seed = 249)
 }
 \arguments{
-\item{seed}{Numerical value of seed for reproducibility. Default is 249.}
+\item{seed}{Integer. Random seed for reproducibility. Default is 249.}
 }
 \value{
-Data frame.
+A data frame with synthetic population counts by region, sex, and
+age, including additional aggregated rows for the total "Country".
 }
 \description{
-Create wide dummy populations data - Not currently in use
+Generates a synthetic (dummy) population dataset by single year of age (0 to
+90 years), sex, and region, including multiple years of population counts.
+National-level totals are also calculated and appended to the dataset.
+}
+\details{
+Population counts are constant within each group in the base dataset
+and are summed across regions to create national totals. The returned
+data includes both regional and aggregated country-level records.
+}
+\examples{
+create_population_data()
+
 }
