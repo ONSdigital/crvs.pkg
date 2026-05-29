@@ -2,13 +2,14 @@
 % Please edit documentation in R/create_pops_data.R
 \name{add_totals_tidy_pop}
 \alias{add_totals_tidy_pop}
-\title{Create a Tidy Population Table with All People, All Ages, and Country Totals}
+\title{Add totals to tidy population data}
 \usage{
 add_totals_tidy_pop(pop_data, fcts)
 }
 \arguments{
-\item{data}{A data frame or tibble containing population data. Must include
-columns: \code{sex}, \code{pop_age}, \code{geog}, and \code{population}.}
+\item{data}{Data frame of tidy population data, such as that created by
+\code{create_tidy_pop_data()}. Must include columns: \code{sex}, \code{pop_age}, \code{geog},
+and \code{population}.}
 
 \item{cfg}{A named list specifying the valid levels for each demographic
 dimension. It must contain:
@@ -21,7 +22,7 @@ dimension. It must contain:
 These vectors are used to construct factor levels for the output table.}
 }
 \value{
-A tibble with aggregated population counts at four levels:
+A data frame with aggregated population counts at four levels:
 \itemize{
 \item individual sex × pop_age × geography
 \item all people × pop_age × geography
@@ -29,47 +30,23 @@ A tibble with aggregated population counts at four levels:
 \item sex × pop_age × country
 }
 
-Columns included in the output:
-\itemize{
-\item \code{geog}
-\item \code{sex}
-\item \code{pop_age}
-\item \code{population}
-}
-
 All three categorical variables (\code{sex}, \code{pop_age}, \code{geog}) are returned as
 ordered factors.
 }
 \description{
-This function takes a population dataset and a configuration list, and
-generates a fully aggregated tidy population table. It adds population totals
-for:
-}
-\details{
-\itemize{
-\item \strong{All people} — summed across all sex groups within each pop_age ×
-geography
-\item \strong{All ages}   — summed across all pop_age groups within each sex ×
-geography
-\item \strong{Country}    — summed across all geographies within each sex × pop_age
-}
-
+Aggregates tidy population data produced by \code{create_tidy_pop_data()} to
+produce totals across categories, using a supplied set of factor levels
+(\code{cfg}).
+The function filters to the years of interest from the \code{cfg}, standardises
+factor levels, performs aggregation for totals, and removes unwanted output
+categories.
 The resulting dataset includes all original rows plus all aggregated totals,
 with factors ordered according to the levels defined in \code{cfg}.
-
-Internally, this function uses the helper \code{group_by_summarise_pop()},
-which performs grouped summation and assigns a fixed label to a specified
-column using tidy evaluation.
-
-The function follows a clear aggregation workflow:
-\enumerate{
-\item \emph{All people} totals across sex
-\item Merge with original data
-\item \emph{All ages} totals across pop_age
-\item Country totals across geographies
-\item Apply factor levels and return tidy, ordered output
 }
-
-The function guarantees consistent ordering and complete population
-coverage across all demographic dimensions.
+\details{
+This function uses helper functions:
+\itemize{
+\item \code{\link[=factorise_cols]{factorise_cols()}}
+\item \code{\link[=general_count_by_var]{general_count_by_var()}}
+}
 }
