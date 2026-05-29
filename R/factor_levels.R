@@ -1,13 +1,30 @@
-#' List of strings to replace "Sum" with in columns
+#' Labels to replace "Sum" in output columns
 #'
-#' @description The process of calculating totals (`rename_multi_sum_str`,
-#' `rename_sum_str`) for all combinations of multiple variables creates a factor
-#' level of "Sum" which should be re-coded to the true factor level.
-#' The name of the string should match the name of the vector from the config.
+#' @description
+#' When totals are calculated using [rename_multi_sum_str()] or
+#' [rename_sum_str()], the value `"Sum"` is added as a factor level.
+#' This function provides the labels used to replace `"Sum"` with
+#' clearer, more meaningful text for reporting.
 #'
-#' @return List object of strings to use for publication-ready totals.
+#' Each item in the list matches a variable/column name and gives the label
+#' that should be used instead of `"Sum"` for that variable.
+#'
+#' The names of the list elements must match the variable names (columns)
+#' defined in the configuration to ensure correct recoding.
+#'
+#' @details
+#' This helper is typically used in post-processing steps to standardise
+#' totals across outputs, ensuring consistency in tables, charts, and reports.
+#'
+#' @return
+#' A named list of character strings where each name corresponds to a variable
+#' and each value is the label used to replace `"Sum"` for that variable.
+#'
+#' @examples
+#' sum_labels <- sum_to_string()
+#' sum_labels$sex
+#'
 #' @export
-#'
 sum_to_string <- function() {
   list(
     live_or_still = "All births",
