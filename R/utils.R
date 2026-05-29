@@ -1,29 +1,53 @@
-#' Round 0.5 up
+#' Round values using half-up rounding (e.g. 0.5 --> 1)
 #'
-#' @description Replaces R round function to round 0.5 up function across the
-#' package to align with how Excel rounds mathematically. Not currently
-#' exported.
+#' @description Replaces R round function to round half values up function
+#' across the package to align with how Excel rounds mathematically.
+#' Rounds numeric values using "round half up" behaviour, where values
+#' exactly halfway between two possibilities are always rounded up.
 #'
-#' @param x Numeric vector.
-#' @param digits Number of digits to round to, default 1.
+#' @param x Numeric vector to round.
+#' @param digits Integer. Number of digits to round to, default 1.
+#'
+#' @details
+#' Not currently exported.
+#'
+#' This function is a thin wrapper around [janitor::round_half_up()],
+#' providing a consistent rounding method for reporting and publication.
+#'
+#' Note: this function masks [base::round()].
+#'
+#' @returns Numeric vector with each element rounded to chosen number of digits.
+#'
+#' @examples
+#' round(c(1.25, 1.35), digits = 1)
+#' round(0.5)
 #'
 round <- function(x, digits = 1) {
   janitor::round_half_up(x, digits)
 }
 
 
-#' Group by and summarise
+#' Count rows by grouping variables
 #'
-#' @description Groups by specified columns, summarises (counts). All
-#' combinations of factor variable levels will be returned, even with no
-#' instances.
+#' @description Groups `data` by one or more chosen variables/columns
+#' (`grouping_cols`), counts the number of rows in each group. All combinations
+#' of factor variable levels will be returned, even with no instances (i.e.
+#' counts of 0).
 #'
 #' @param data Data frame.
-#' @param grouping_cols Vector of strings of column names to group by.
+#' @param grouping_cols Vector of character strings of column names to group by.
 #'
 #' @return Data frame with counts column (ungrouped).
-#' @export
 #'
+#' @examples
+#' df <- data.frame(
+#'   region = c("A", "A", "B"),
+#'   sex = c("Male", "Female", "Male")
+#' )
+#'
+#' group_by_summarise_count(df, c("region", "sex"))
+#'
+#' @export
 group_by_summarise_count <- function(data, grouping_cols) {
   data |>
     dplyr::group_by(
@@ -35,37 +59,29 @@ group_by_summarise_count <- function(data, grouping_cols) {
 }
 
 
-#' Group, Summarise Population, and Add a Label Column
+#' Sum values by grouping variables
 #'
-#' This helper function groups a population dataset by one or more columns,
-#' sums the `population` variable within each group, and then adds a new column
-#' (defined using tidy-evaluation) with a constant value.
+#' @description Groups by one or more chosen variables/columns
+#' (`grouping_cols`), calculates the sum of a chosen numeric variable/column
+#' (`sum_col`) in each group. All combinations of factor variable levels will be
+#' returned, even with no instances (i.e. counts of 0).
 #'
-#' It is typically used to generate aggregate population rows such as
-#' "All people", "All ages", or other summary group labels.
+#' @param data A data frame containing at least the `grouping_cols` and 
+#' `sum_col`.
+#' @param grouping_cols Vector of character strings of column names to group by.
+#' @param sum_col A character string of the numeric column name to sum.
 #'
-#' @param data A data frame or tibble containing at least a `population`
-#' column and the grouping columns specified in `grouping_cols`.
-#' @param grouping_cols A character vector of column names to group by.
-#' These columns must exist in `data`.
-#' @param total_var A tidy-evaluated column name to create in the result.
-#' This should be supplied unquoted (e.g. `sex`).
-#' @param total_str A string that will be assigned to the new `total_var`
-#' column for every row in the output.
-#' @param sum_col A tidy-evaluated column name to sum.
-#' This should be supplied unquoted (e.g. `population`).
+#' @returns A data frame with one row per unique combination of grouping
+#' variables and a column containing the summed values.
 #'
-#' #return A tibble containing:
-#'   - the grouping columns,
-#'   - a `population` column containing the summed `sum_col` values,
-#'   - the new column specified by `total_var` containing `total_str`.
+#' @examples
+#' df <- data.frame(
+#'   region = c("A", "A", "B"),
+#'   sex = c("Male", "Female", "Male"),
+#'   value = c(10, 20, 30)
+#' )
 #'
-#' @details
-#' The function uses tidy evaluation (`{{ }}`) to allow the caller to
-#' dynamically name the output column.
-#'
-#' Grouping uses `.drop = FALSE`, meaning factor levels that do not
-#' appear in the data are preserved in the output.
+#' group_by_summarise_sum(df, c("region", "sex"), "value")
 #'
 #' @export
 group_by_summarise_sum <- function(data, grouping_cols, sum_col) {
@@ -78,7 +94,13 @@ group_by_summarise_sum <- function(data, grouping_cols, sum_col) {
     dplyr::ungroup()
 }
 
-#' Summarise and count given variables
+
+#' Create cross-tabulated counts or sums with totals added
+#'
+#' @description Aggregates a dataset by specified grouping variables
+#' (`grouping_cols`), producing either counts or sums,
+#' and returns a cross-tabulation (all combinations of the variables) with the
+#' totals/sums (marginal totals) calculated.
 #'
 #' @param data Processed dataframe with no NA in grouping columns (should be
 #' "Not stated" or similar).
@@ -202,7 +224,6 @@ rename_sum_str <- function(data, col, var, pub_colname, fcts) {
 #' provided levels. If FALSE, those values become NA with a warning.
 #'
 #' @return The modified data.frame with selected columns turned into factors.
-#' @export
 factorise_cols <- function(df,
                            level_list,
                            cols = names(level_list),
