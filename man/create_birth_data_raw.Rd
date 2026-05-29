@@ -2,18 +2,32 @@
 % Please edit documentation in R/create_birth_data.R
 \name{create_birth_data_raw}
 \alias{create_birth_data_raw}
-\title{Create dummy birth data}
+\title{Simulate raw birth registration data}
 \usage{
 create_birth_data_raw(n = 10000, seed = 249)
 }
 \arguments{
-\item{n}{Number of rows to generate. Default is 1000.}
+\item{n}{Number of records to generate. Default is 10,000.}
 
-\item{seed}{Numerical value of seed for reproducibility. Default is 249.}
+\item{seed}{Random seed for reproducibility. Default is 249.}
 }
 \value{
-Data frame.
+A dataframe of synthetic births data. The column names are unique
+identifiers, rather than descriptive names (e.g. \code{birth1a}).
 }
 \description{
-Some messy data is added to demonstrate processing.
+Generates a synthetic (dummy) dataset of raw birth registration data,
+including child, birth event, and maternal characteristics. The output
+includes a small number of deliberately irregular records for testing
+validation and cleaning workflows.
+}
+\details{
+Values are sampled from simple distributions to approximate realistic
+patterns. Five additional rows are appended containing edge cases
+(e.g. missing or inconsistent dates) to support testing.
+}
+\examples{
+create_birth_data_raw()
+create_birth_data_raw(n = 1000, seed = 123)
+
 }
