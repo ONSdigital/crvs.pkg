@@ -2,17 +2,34 @@
 % Please edit documentation in R/utils.R
 \name{round}
 \alias{round}
-\title{Round 0.5 up}
+\title{Round values using half-up rounding (e.g. 0.5 --> 1)}
 \usage{
 round(x, digits = 1)
 }
 \arguments{
-\item{x}{Numeric vector.}
+\item{x}{Numeric vector to round.}
 
-\item{digits}{Number of digits to round to, default 1.}
+\item{digits}{Integer. Number of digits to round to, default 1.}
+}
+\value{
+Numeric vector with each element rounded to chosen number of digits.
 }
 \description{
-Replaces R round function to round 0.5 up function across the
-package to align with how Excel rounds mathematically. Not currently
-exported.
+Replaces R round function to round half values up function
+across the package to align with how Excel rounds mathematically.
+Rounds numeric values using "round half up" behaviour, where values
+exactly halfway between two possibilities are always rounded up.
+}
+\details{
+Not currently exported.
+
+This function is a thin wrapper around \code{\link[janitor:round_half_up]{janitor::round_half_up()}},
+providing a consistent rounding method for reporting and publication.
+
+Note: this function masks \code{\link[base:Round]{base::round()}}.
+}
+\examples{
+round(c(1.25, 1.35), digits = 1)
+round(0.5)
+
 }
