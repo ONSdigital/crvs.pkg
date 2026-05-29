@@ -2,20 +2,19 @@
 % Please edit documentation in R/create_pops_data.R
 \name{create_tidy_pop_data}
 \alias{create_tidy_pop_data}
-\title{Generate Synthetic Tidy Population Data for Testing}
+\title{Simulate tidy (long format) population data}
 \usage{
 create_tidy_pop_data(seed = 97, yr_start = 2022)
 }
 \arguments{
-\item{seed}{Integer. Random seed used to generate population values.
-Defaults to \code{97}. Use different seeds to generate different datasets.}
+\item{seed}{Integer. Random seed for reproducibility. Default is 97.}
 
 \item{yr_start}{Integer. The first year to include in the dataset.
-Data will cover four years: \code{yr_start}, \code{yr_start + 1}, \code{yr_start + 2},
-and \code{yr_start + 3}.}
+Data will cover three more/consecutive years from the first year. Default is
+2022.}
 }
 \value{
-A data frame (tibble-like) with the following columns:
+A data frame with the following columns:
 \itemize{
 \item \code{year} — integer year
 \item \code{geog} — region name string (\code{"RegionA"}–\code{"RegionD"})
@@ -23,17 +22,10 @@ A data frame (tibble-like) with the following columns:
 \item \code{pop_age} — pop_age in years (0–90)
 \item \code{population} — randomly generated integer between 0 and 500
 }
-
-The number of rows is:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{4 years × 4 regions × 2 sexes × 91 ages = 2912 rows
-}\if{html}{\out{</div>}}
 }
 \description{
-This function creates a reproducible synthetic population dataset suitable
-for testing population-processing pipelines. It expands all combinations of
-year, region, sex, and pop_age, and assigns each row a random population
-count.
+Generates a synthetic population dataset in tidy format with one row with a
+population per combination of year, geography, sex, and single year of age.
 }
 \details{
 The dataset includes:
@@ -46,4 +38,8 @@ The dataset includes:
 
 A random integer \code{population} value between 0 and 500 is generated for each
 demographic combination. Setting the \code{seed} ensures full reproducibility.
+}
+\examples{
+create_tidy_pop_data()
+
 }
