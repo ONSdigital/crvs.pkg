@@ -2,16 +2,32 @@
 % Please edit documentation in R/factor_levels.R
 \name{sum_to_string}
 \alias{sum_to_string}
-\title{List of strings to replace "Sum" with in columns}
+\title{Labels to replace "Sum" in output columns}
 \usage{
 sum_to_string()
 }
 \value{
-List object of strings to use for publication-ready totals.
+A named list of character strings where each name corresponds to a variable
+and each value is the label used to replace \code{"Sum"} for that variable.
 }
 \description{
-The process of calculating totals (\code{rename_multi_sum_str},
-\code{rename_sum_str}) for all combinations of multiple variables creates a factor
-level of "Sum" which should be re-coded to the true factor level.
-The name of the string should match the name of the vector from the config.
+When totals are calculated using \code{\link[=rename_multi_sum_str]{rename_multi_sum_str()}} or
+\code{\link[=rename_sum_str]{rename_sum_str()}}, the value \code{"Sum"} is added as a factor level.
+This function provides the labels used to replace \code{"Sum"} with
+clearer, more meaningful text for reporting.
+
+Each item in the list matches a variable/column name and gives the label
+that should be used instead of \code{"Sum"} for that variable.
+
+The names of the list elements must match the variable names (columns)
+defined in the configuration to ensure correct recoding.
+}
+\details{
+This helper is typically used in post-processing steps to standardise
+totals across outputs, ensuring consistency in tables, charts, and reports.
+}
+\examples{
+sum_labels <- sum_to_string()
+sum_labels$sex
+
 }
