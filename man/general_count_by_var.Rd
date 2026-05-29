@@ -27,8 +27,14 @@ variables to aggregate by.}
 the input aggregation variables to (must be same length as
 \code{agg_cols_pub_names}). Should be publication ready.}
 
-\item{agg_count_colname}{Symbol (unquoted or ``) to name the aggregated
-count column. Default is \verb{Counts of births}.}
+\item{agg_count_colname}{Name of the intended output column containing counts
+or sums. Default is \code{"Counts of births"}.}
+
+\item{count_or_sum}{String. Whether to \code{"count"} rows or \code{"sum"} during
+aggregation. Default is \code{"count"}.}
+
+\item{sum_col}{String. Column to sum by when \code{count_or_sum = "sum"}.
+Ignored otherwise (default is \code{NULL}.}
 
 \item{fcts}{List object of character vectors of factor levels within each of
 the aggregation variables from \code{config.R}.}
@@ -48,8 +54,33 @@ Default is no filers applied. See \code{filter_factor_levels} for more informati
 on the filtering.}
 }
 \value{
-Aggregated counts of chosen variables and breakdowns.
+A data frame grouped by the selected variables, with counts or sums and
+cleaned, publication-ready labels.
 }
 \description{
-General function to count by chosen aggregation columns
+This function groups data by one or more variables and calculates either
+counts or sums. It also formats the output so it is ready for reporting,
+including replacing \code{"Sum"} labels and applying readable column names.
+
+You can choose to drop chosen factor levels before and also after
+aggregation.
+}
+\details{
+The function:
+\itemize{
+\item Checks required columns exist
+\item Filters factor levels (optional, before and after aggregation)
+\item Calculates counts or sums
+\item Replaces \code{"Sum"} with meaningful labels
+\item Sorts and cleans the final output
+}
+}
+\examples{
+general_count_by_var(
+  data = births,
+  agg_cols = c("sex", "year"),
+  agg_cols_pub_names = c("Sex", "Year"),
+  fcts = sum_to_string()
+)
+
 }
